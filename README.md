@@ -1,6 +1,8 @@
 # osu-Tracker
  My own version of an osu! Tracker.
  Made in C/C++
+
+ PROJECT IS WIP (NOT FUNCTIONING RIGHT NOW)
  
 # If u want to compile it urself: 
  1. Download the api folder containing the curl and cpr library.
