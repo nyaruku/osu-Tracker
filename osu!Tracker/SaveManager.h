@@ -1,6 +1,7 @@
 // A REWRITE OF MY OWN SAVE MANAGER FROM C#
 // LINK: https://github.com/nyaruku/SaveManager
 #pragma once
+#include <Windows.h>
 #include <iostream>
 #include "extension.h"
 #include <fstream>
@@ -30,7 +31,12 @@ public:
 
 	void AddKey(const char* keyname, bool keyvalue)
 	{
-		SaveData = custom_strcat(5, SaveData, keyname, "=", keyvalue, "\n");
+		if (keyvalue) {
+			SaveData = custom_strcat(5, SaveData, keyname, "=", "1", "\n");
+		}
+		else {
+			SaveData = custom_strcat(5, SaveData, keyname, "=", "0", "\n");
+		}
 	}
 
 	void AddKey(const char* keyname, const char* keyvalue)
@@ -181,5 +187,10 @@ public:
 		catch (const std::filesystem::filesystem_error& err) {
 			//std::cout << "filesystem error: " << err.what() << '\n';
 		}
+	}
+
+	void Create_Directory(const char* path)
+	{
+		std::filesystem::create_directory(path);
 	}
 };
