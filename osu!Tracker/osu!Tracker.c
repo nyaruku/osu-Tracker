@@ -10,10 +10,8 @@
 #include "wrapper.h"
 
 // 0 = GDI | 1 = GDI+
-#define gdi_mode 0
-//		GDI is Default for now.
-//		Even If GDI+ should be used, Nuklear GDI+ Binding is bugged with Text Field Keyboard Shortcuts.
-//		Not allowing you to Select All , Copy and Paste into a Text Field.
+#define gdi_mode 1
+
 #define WINDOW_WIDTH 400
 #define WINDOW_HEIGHT 600
 
@@ -84,6 +82,45 @@ void ext_BttBg(struct nk_context* ctx, int r, int g, int b) {
 	ctx->style.button.normal.data.color.b = b;
 }
 
+const char* custom_strcat(size_t numStrings, ...) {
+	// Initialize va_list and iterate through the strings to calculate the total length
+	va_list args;
+	va_start(args, numStrings);
+
+	size_t totalLen = 0;
+	for (size_t i = 0; i < numStrings; i++) {
+		const char* currentString = va_arg(args, const char*);
+		totalLen += strlen(currentString);
+	}
+
+	va_end(args);
+
+	// Allocate memory for the result string
+	char* result = (char*)malloc(totalLen + 1); // +1 for the null terminator
+
+	if (result == NULL) {
+		return NULL; // Memory allocation failed
+	}
+
+	// Copy the contents of each string to the result
+	char* currentPos = result;
+	va_start(args, numStrings);
+
+	for (size_t i = 0; i < numStrings; i++) {
+		const char* currentString = va_arg(args, const char*);
+		size_t currentLen = strlen(currentString);
+		memcpy(currentPos, currentString, currentLen);
+		currentPos += currentLen;
+	}
+
+	va_end(args);
+
+	// Null-terminate the result string
+	*currentPos = '\0';
+
+	return result;
+}
+
 #pragma endregion
 
 // draw functions
@@ -99,8 +136,8 @@ static int number_of_chars; //total number of characters typed in
 struct nk_context* ctx;
 
 int main(void) {
-
 	start_main();
+	
 	return 0;
 }
 
@@ -304,7 +341,6 @@ static void start_main()
 #endif
 
 	UnregisterClassW(wc.lpszClassName, wc.hInstance);
-	
 }
 // MAIN TAB UI
 void drawMain() {
@@ -340,16 +376,19 @@ void drawAbout() {
 	nk_layout_row_dynamic(ctx, 20, 1);
 	nk_label(ctx, "API: [color=#64beff]cpr[/color] | [color=#64beff]libcurl[/color]", 17);
 	nk_layout_row_dynamic(ctx, 20, 1);
-	nk_label(ctx, "My Discord: "
-		"[color=#ffffff]@[/color]"
-		"[color=#7C7CFF]N[/color]"
-		"[color=#8F6CDB]y[/color]"
-		"[color=#A25DB6]a[/color]"
-		"[color=#B44E92]r[/color]"
-		"[color=#C73E6E]u[/color]"
-		"[color=#C73E6E]k[/color]"
-		"[color=#FF016F]u[/color]", 17);
+
+	// You have to decleare an extra variable for gradientText()
+	// If u nest it into custom_strcat() u will still get memory leaked by gradientText()
+	const char* grText = gradientText("Nyaruku", "#7C7CFF", "#FF016F");
+	const char* labelText = custom_strcat(2, "My Discord: @", grText);
+	nk_label(ctx, labelText, 17);
+	// Prevent Memory Leak
+	free((void*)grText);
+	free((void*)labelText);
+	
+
 	nk_layout_row_dynamic(ctx, 20, 1);
+
 	nk_label(ctx, "osu! Username: "
 		"[color=#ffffff]_[/color]"
 		"[color=#FF1A7D]Railgun[/color]"
@@ -361,18 +400,18 @@ void drawAbout() {
 	ctx->style.button.text_alignment = NK_TEXT_ALIGN_CENTERED | NK_TEXT_ALIGN_MIDDLE;
 	nk_layout_row_dynamic(ctx, 25, 1);
 	if (nk_button_label(ctx, "osu! Tracker - GitHub Repository")) {
-		system("start https://github.com/nyaruku/osuTracker");
+		OpenLink("https://github.com/nyaruku/osuTracker");
 	}
 	nk_layout_row_dynamic(ctx, 25, 1);
 	if (nk_button_label(ctx, "Nuklear - GitHub Repository")) {
-		system("start https://github.com/Immediate-Mode-UI/Nuklear");
+		OpenLink("https://github.com/Immediate-Mode-UI/Nuklear");
 	}
 	nk_layout_row_dynamic(ctx, 25, 1);
 	if (nk_button_label(ctx, "My osu! Profile")) {
-		system("start https://osu.ppy.sh/users/13817114");
+		OpenLink("https://osu.ppy.sh/users/13817114");
 	}
 	nk_layout_row_dynamic(ctx, 25, 1);
 	if (nk_button_label(ctx, "My Discord Server")) {
-		system("cmd /c start https://github.com/nyaruku/osuTracker");
+		//system("cmd /c start https://github.com/nyaruku/osuTracker");
 	}
 }

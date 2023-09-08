@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cstdarg> // for va_list and va_start
 #include <Windows.h>
+#include <sstream>
+#include <iomanip>
 
 // Function to calculate the length of a null-terminated char*
 size_t custom_strlen(const char* str) {
@@ -90,3 +92,53 @@ wchar_t* MultiByteToWideChar(const char* string) {
 	return wideString;
 }
 
+struct Color {
+	int r, g, b;
+
+	Color(int red, int green, int blue) : r(red), g(green), b(blue) {}
+
+	// Linear interpolation between two colors
+	static Color interpolate(const Color& start, const Color& end, double t) {
+		int r = static_cast<int>((1 - t) * start.r + t * end.r);
+		int g = static_cast<int>((1 - t) * start.g + t * end.g);
+		int b = static_cast<int>((1 - t) * start.b + t * end.b);
+		
+		return Color(r, g, b);
+	}
+};
+
+Color getColorForStep(const Color& start, const Color& end, int steps, int step) {
+	if (step < 0) step = 0;
+	if (step > steps) step = steps;
+
+	double t = static_cast<double>(step) / steps;
+	return Color::interpolate(start, end, t);
+}
+
+Color HexColorToRGB(const char* hexColor) {
+	Color color{255,255,255};
+	if (hexColor[0] == '#' && strlen(hexColor) == 7) {
+		std::stringstream ss;
+		ss << std::hex << hexColor + 1; // Skip the '#' character
+
+		int colorValue;
+		ss >> colorValue;
+		color.r = (colorValue >> 16) & 0xFF;
+		color.g = (colorValue >> 8) & 0xFF;
+		color.b = colorValue & 0xFF;
+		ss.clear();
+	}
+	else {
+		// Invalid hex color format, return the original color
+	}
+	
+	return color;
+}
+std::string RGBColorToHex(Color color) {
+	std::stringstream ss;
+	ss << "#" << std::setfill('0') << std::setw(2) << std::hex << color.r
+		<< std::setw(2) << std::hex << color.g << std::setw(2) << std::hex << color.b;
+	std::string temp = ss.str();
+	ss.clear();
+	return temp;
+}
