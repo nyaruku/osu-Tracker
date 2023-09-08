@@ -388,3 +388,8 @@ osu\!Tracker/dep/api/x86/Release/lib/pkgconfig/libcurl.pc
 *.filters
 *.user
 *.config
+osu\!Tracker/x64/Debug/api.h_96189DCA2E7EBDE8.ifc.dt.module.json
+osu\!Tracker/x64/Debug/api.h_96189DCA2E7EBDE8.ifc.dt.d.json
+osu\!Tracker/x64/Debug/api.h.module.json
+osu\!Tracker/x64/Debug/api.h.ifc.d.json
+osu\!Tracker/x64/Debug/osu\!Tracker.sourcelink.json
