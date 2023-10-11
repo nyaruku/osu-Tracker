@@ -5,7 +5,7 @@
  PROJECT IS WIP (NOT FUNCTIONING RIGHT NOW)
 
 # Implemented
-Windows Support, GDI+
+- Windows Support, GDI+
 
 # PLANNED
 - Linux Support (need full code rewrite)
