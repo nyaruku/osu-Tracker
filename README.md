@@ -2,7 +2,8 @@
  My own version of an osu! Tracker.
  Made in C/C++
 
- PROJECT IS WIP (NOT FUNCTIONING RIGHT NOW)
+ PROJECT IS WorkInProgress (NOT FUNCTIONING RIGHT NOW)
+ (feel free to PR, if u want)
 
 # Implemented
 - Windows Support, GDI+
