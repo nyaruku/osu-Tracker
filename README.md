@@ -4,7 +4,7 @@
 
  PROJECT IS WIP (NOT FUNCTIONING RIGHT NOW)
 
-#PLANNING TO DO
+# PLANNING TO DO
 
  
 # If u want to compile it urself: 
