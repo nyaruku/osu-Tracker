@@ -1,4 +1,4 @@
-# osu-Tracker
+# Another osu! Tracker
  My own version of an osu! Tracker.
  Made in C/C++
 
