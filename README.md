@@ -3,6 +3,9 @@
  Made in C/C++
 
  PROJECT IS WIP (NOT FUNCTIONING RIGHT NOW)
+
+#PLANNING TO DO
+
  
 # If u want to compile it urself: 
 Note: I used VS MSVC
