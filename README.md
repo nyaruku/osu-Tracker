@@ -4,9 +4,15 @@
 
  PROJECT IS WIP (NOT FUNCTIONING RIGHT NOW)
 
-# PLANNING TO DO
+# Implemented
+Windows Support, GDI+
 
- 
+# PLANNED
+- Linux Support (need full code rewrite)
+- OBS Browser Overlay
+- Saving Gameplay Sessions
+- Maybe more stuff if I have more ideas...
+  
 # If u want to compile it urself: 
 Note: I used VS MSVC
  1. Download the api folder containing the curl and cpr library.
